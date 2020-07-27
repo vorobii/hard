@@ -10,89 +10,88 @@ class Tree:
         self.root = None
 
     def add(self, data):
+        def _add(curr, data):
+            if data > curr.data:
+                if curr.right is None:
+                    curr.right = Node(data)
+                else:
+                    _add(curr.right, data)
+            elif data < curr.data:
+
+                if curr.left is None:
+                    curr.left = Node(data)
+
+                else:
+                    _add(curr.left, data)
+
         if self.root is None:
             self.root = Node(data)
 
         else:
-            self._add(self.root, data)
-
-    def _add(self, curr, data):
-        if data > curr.data:
-            if curr.right is None:
-                curr.right = Node(data)
-            else:
-                self._add(curr.right, data)
-        elif data < curr.data:
-
-            if curr.left is None:
-                curr.left = Node(data)
-
-            else:
-                self._add(curr.left, data)
+            _add(self.root, data)
 
     def dfs_in_order(self):
 
+        def _dfs_in_order(curr):
+            if curr is None:
+                return
+
+            _dfs_in_order(curr.left)
+            print(curr.data, end=" ")
+            _dfs_in_order(curr.right)
+
         if self.root is None:
             print('Tree is empty')
         else:
-            self._dfs_in_order(self.root)
-
-    def _dfs_in_order(self, curr):
-        if curr is None:
-            return
-
-        self._dfs_in_order(curr.left)
-        print(curr.data, end=" ")
-        self._dfs_in_order(curr.right)
+            _dfs_in_order(self.root)
 
     def dfs_pre_order(self):
+        def _dfs_pre_order( curr):
+            if curr is None:
+                return
+
+            print(curr.data, end=" ")
+            _dfs_pre_order(curr.left)
+            _dfs_pre_order(curr.right)
+
         if self.root is None:
             print('Tree is empty')
         else:
-            self._dfs_pre_order(self.root)
-
-    def _dfs_pre_order(self, curr):
-        if curr is None:
-            return
-
-        print(curr.data, end=" ")
-        self._dfs_pre_order(curr.left)
-        self._dfs_pre_order(curr.right)
+            _dfs_pre_order(self.root)
 
     def dfs_post_order(self):
+        def _dfs_post_order( curr):
+            if curr is None:
+                return
+            _dfs_post_order(curr.left)
+            _dfs_post_order(curr.right)
+            print(curr.data, end=" ")
+
         if self.root is None:
             print('Tree is empty')
         else:
-            self._dfs_post_order(self.root)
-
-    def _dfs_post_order(self, curr):
-        if curr is None:
-            return
-
-        self._dfs_post_order(curr.left)
-        self._dfs_post_order(curr.right)
-        print(curr.data, end=" ")
+            _dfs_post_order(self.root)
 
     def find_in_tree(self, data):
+        def _find_in_tree( curr, values):
+            if curr is None:
+                return
+
+            _find_in_tree(curr.left, values)
+            values.append(curr.data)
+            _find_in_tree(curr.right, values)
+
         values = []
         if self.root is None:
             print(data + ' Not in Tree')
 
         else:
-            self._find_in_tree(self.root, values)
+            _find_in_tree(self.root, values)
 
             if data in values:
                 print('Є такий елемент')
             else:
                 print('Немає такого елементу')
-
-    def _find_in_tree(self, curr, values):
-        if curr is None:
-            return
-
-        self._find_in_tree(curr.left, values)
-        values.append(curr.data)
-        self._find_in_tree(curr.right, values)
 
     def bfs(self):
         queue = [self.root]
@@ -107,20 +106,18 @@ class Tree:
             queue.pop(0)
 
     def tree_to_list(self):
+        def _tree_to_list( curr, list_v):
+            if curr is None:
+                return
+            _tree_to_list(curr.left, list_v)
+            list_v.append(curr.data)
+            _tree_to_list(curr.right, list_v)
         res = []
         if self.root is None:
             return res
         else:
-            self._tree_to_list(self.root, res)
+            _tree_to_list(self.root, res)
             return res
-
-    def _tree_to_list(self, curr, list_v):
-        if curr is None:
-            return
-        self._tree_to_list(curr.left, list_v)
-        list_v.append(curr.data)
-        self._tree_to_list(curr.right, list_v)
-
 
 
 test = Tree()
