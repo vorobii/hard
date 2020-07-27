@@ -1,0 +1,143 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+
+class Tree:
+    def __init__(self):
+        self.root = None
+
+    def add(self, data):
+        if self.root is None:
+            self.root = Node(data)
+
+        else:
+            self._add(self.root, data)
+
+    def _add(self, curr, data):
+        if data > curr.data:
+            if curr.right is None:
+                curr.right = Node(data)
+            else:
+                self._add(curr.right, data)
+        elif data < curr.data:
+
+            if curr.left is None:
+                curr.left = Node(data)
+
+            else:
+                self._add(curr.left, data)
+
+    def dfs_in_order(self):
+
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self._dfs_in_order(self.root)
+
+    def _dfs_in_order(self, curr):
+        if curr is None:
+            return
+
+        self._dfs_in_order(curr.left)
+        print(curr.data, end=" ")
+        self._dfs_in_order(curr.right)
+
+    def dfs_pre_order(self):
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self._dfs_pre_order(self.root)
+
+    def _dfs_pre_order(self, curr):
+        if curr is None:
+            return
+
+        print(curr.data, end=" ")
+        self._dfs_pre_order(curr.left)
+        self._dfs_pre_order(curr.right)
+
+    def dfs_post_order(self):
+        if self.root is None:
+            print('Tree is empty')
+        else:
+            self._dfs_post_order(self.root)
+
+    def _dfs_post_order(self, curr):
+        if curr is None:
+            return
+
+        self._dfs_post_order(curr.left)
+        self._dfs_post_order(curr.right)
+        print(curr.data, end=" ")
+
+    def find_in_tree(self, data):
+        values = []
+        if self.root is None:
+            print(data + ' Not in Tree')
+
+        else:
+            self._find_in_tree(self.root, values)
+
+            if data in values:
+                print('Є такий елемент')
+            else:
+                print('Немає такого елементу')
+
+    def _find_in_tree(self, curr, values):
+        if curr is None:
+            return
+
+        self._find_in_tree(curr.left, values)
+        values.append(curr.data)
+        self._find_in_tree(curr.right, values)
+
+    def bfs(self):
+        queue = [self.root]
+        while queue:
+            curr = queue[0]
+            if curr.left is not None:
+                 queue.append(curr.left)
+            if curr.right is not None:
+                 queue.append(curr.right)
+            print(curr.data, end=" ")
+
+            queue.pop(0)
+
+    def tree_to_list(self):
+        res = []
+        if self.root is None:
+            return res
+        else:
+            self._tree_to_list(self.root, res)
+            return res
+
+    def _tree_to_list(self, curr, list_v):
+        if curr is None:
+            return
+        self._tree_to_list(curr.left, list_v)
+        list_v.append(curr.data)
+        self._tree_to_list(curr.right, list_v)
+
+
+
+test = Tree()
+test.add(4)
+test.add(5)
+test.add(2)
+test.add(7)
+test.add(3)
+
+print('DFS in order\t', end=" ")
+test.dfs_in_order()
+print('\nDFS pre order\t', end=" ")
+test.dfs_pre_order()
+print('\nDFS post order\t', end=" ")
+test.dfs_post_order()
+print('\nПошук елемента :', end="  ")
+test.find_in_tree(100)
+print('BFS :', end=" ")
+test.bfs()
+test.tree_to_list()
